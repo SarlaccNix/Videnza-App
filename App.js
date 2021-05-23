@@ -12,7 +12,7 @@ import { ApplicationProvider, Layout, Text, Button } from '@ui-kitten/components
 
 const HomeScreen = () => (
   <Layout style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-    <Text category='h1'>Videnza</Text>
+    <Text category='h1'>Videnza App</Text>
     <Button>Foto</Button>
     <Button>Base de Datos de Casos</Button>
     <Button>Otra Vaina</Button>
