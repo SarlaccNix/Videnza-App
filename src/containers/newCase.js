@@ -1,75 +1,136 @@
 import {Input, Layout, Text} from '@ui-kitten/components';
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import {Button} from 'react-native';
-import {connect, mapDispatchToProps} from 'react-redux';
+import {useDispatch} from 'react-redux';
+import {useForm, Controller} from 'react-hook-form';
+import {CaseUpload} from '../services/services';
 
-class _newCase extends Component {
-  state = {
-    stole_item: '',
-    where_was_item: '',
-    folder_number: '',
-    unit_number: '',
-    agency_number: '',
-    detail_item: '',
-  };
-  render() {
-    const handleSubmit = () => {
-      console.log('Dispatch Form');
-      this.onSubmit(this.state);
-    };
+function NewCase() {
+  // const dispatch = useDispatch();
+  const {
+    control,
+    handleSubmit,
+    watch,
+    formState: {errors},
+  } = useForm();
 
-    const changeHandler = (text, id) => {
-      this.setState(id, text);
-    };
-    return (
-      <Layout>
-        <Text>stole_item</Text>
-        <Input
-          placeholder="stole_item"
-          id="stole_item"
-          onChange={(text, id) => changeHandler(text, id)}
-        />
-        <Text>where_was_item</Text>
-        <Input
-          placeholder="where_was_item"
-          id="where_was_item"
-          onChange={(text, id) => changeHandler(text, id)}
-        />
-        <Text>folder_number</Text>
-        <Input
-          placeholder="folder_number"
-          id="folder_number"
-          onChange={(text, id) => changeHandler(text, id)}
-        />
-        <Text>unit_number</Text>
-        <Input
-          placeholder="unit_number"
-          id="unit_number"
-          onChange={(text, id) => changeHandler(text, id)}
-        />
-        <Text>agency_number</Text>
-        <Input
-          placeholder="agency_number"
-          id="agency_number"
-          onChange={(text, id) => changeHandler(text, id)}
-        />
-        <Text>detail_item</Text>
-        <Input
-          placeholder="detail_item"
-          id="detail_item"
-          onChange={(text, id) => changeHandler(text, id)}
-        />
-        <Button title="Submit Form" onPress={() => handleSubmit()} />
-      </Layout>
-    );
-  }
-  mapDispatchToProps = dispatch => {
-    return {
-      onSubmit: form => dispatch({type: 'ADD_NEW_CASE', payload: form}),
-    };
+  const onSubmit = async form => {
+    console.log('Dispatch form data', form);
+    let response = '';
+    //   dispatch({type: 'ADD_NEW_CASE', payload: form});
+    await CaseUpload(form).then(res => (response = res));
   };
+
+  return (
+    <Layout>
+      <Text>stole_item</Text>
+      <Controller
+        control={control}
+        rules={{
+          required: false,
+        }}
+        render={({field: {onChange, onBlur, value}}) => (
+          <Input
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+            placeholder="stole_item"
+          />
+        )}
+        name="stole_item"
+        defaultValue=""
+      />
+      <Text>where_was_item</Text>
+      <Controller
+        control={control}
+        rules={{
+          required: false,
+        }}
+        render={({field: {onChange, onBlur, value}}) => (
+          <Input
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+            placeholder="where_was_item"
+          />
+        )}
+        name="where_was_item"
+        defaultValue=""
+      />
+      <Text>folder_number</Text>
+      <Controller
+        control={control}
+        rules={{
+          required: false,
+        }}
+        render={({field: {onChange, onBlur, value}}) => (
+          <Input
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+            placeholder="folder_number"
+          />
+        )}
+        name="folder_number"
+        defaultValue=""
+      />
+
+      <Text>unit_number</Text>
+      <Controller
+        control={control}
+        rules={{
+          required: false,
+        }}
+        render={({field: {onChange, onBlur, value}}) => (
+          <Input
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+            placeholder="unit_number"
+          />
+        )}
+        name="unit_number"
+        defaultValue=""
+      />
+
+      <Text>agency_number</Text>
+
+      <Controller
+        control={control}
+        rules={{
+          required: false,
+        }}
+        render={({field: {onChange, onBlur, value}}) => (
+          <Input
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+            placeholder="agency_number"
+          />
+        )}
+        name="agency_number"
+        defaultValue=""
+      />
+      <Text>detail_item</Text>
+      <Controller
+        control={control}
+        rules={{
+          required: false,
+        }}
+        render={({field: {onChange, onBlur, value}}) => (
+          <Input
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+            placeholder="detail_item"
+          />
+        )}
+        name="detail_item"
+        defaultValue=""
+      />
+      <Button title="Submit Form" onPress={handleSubmit(onSubmit)} />
+    </Layout>
+  );
 }
 
-const newCase = connect(mapDispatchToProps)(_newCase);
-
-export default newCase;
+export default NewCase;
